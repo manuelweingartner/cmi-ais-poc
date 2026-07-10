@@ -71,10 +71,12 @@ export class PieChart {
   /** 0 = pie, >0 = donut inner radius as fraction of r (e.g. 0.6). */
   readonly innerRatio = input(0);
   readonly clickable = input(false);
+  /** Larger rendering for prominent widgets. */
+  readonly big = input(false);
   readonly sliceClick = output<string>();
 
-  readonly width = () => 420;
-  readonly height = () => 260;
+  readonly width = () => (this.big() ? 560 : 420);
+  readonly height = () => (this.big() ? 320 : 260);
 
   readonly slices = computed<RenderedSlice[]>(() => {
     const data = this.data().filter((d) => d.value > 0);
@@ -85,7 +87,11 @@ export class PieChart {
     const r = Math.min(cx, cy) - 48;
     const ir = r * this.innerRatio();
     let angle = -Math.PI / 2;
-    const out: RenderedSlice[] = [];
+    interface Pre extends RenderedSlice {
+      mid: number;
+      right: boolean;
+    }
+    const pre: Pre[] = [];
     for (let i = 0; i < data.length; i++) {
       const d = data[i];
       const frac = d.value / total;
@@ -103,24 +109,53 @@ export class PieChart {
       } else {
         path = `M ${cx} ${cy} L ${x0} ${y0} A ${r} ${r} 0 ${large} 1 ${x1} ${y1} Z`;
       }
-      // leader line + label at mid angle
       const mid = (a0 + a1) / 2;
-      const p1x = cx + (r + 2) * Math.cos(mid), p1y = cy + (r + 2) * Math.sin(mid);
-      const p2x = cx + (r + 14) * Math.cos(mid), p2y = cy + (r + 14) * Math.sin(mid);
-      const right = Math.cos(mid) >= 0;
-      const p3x = p2x + (right ? 12 : -12);
-      out.push({
+      pre.push({
         path,
         color: d.color ?? CHART_COLORS[i % CHART_COLORS.length],
         label: d.label,
         value: d.value,
-        labelLine: `${p1x},${p1y} ${p2x},${p2y} ${p3x},${p2y}`,
-        labelX: p3x + (right ? 4 : -4),
-        labelY: p2y + 3.5,
-        anchor: right ? 'start' : 'end',
+        mid,
+        right: Math.cos(mid) >= 0,
+        labelLine: '',
+        labelX: 0,
+        labelY: 0,
+        anchor: 'start',
       });
     }
-    return out;
+
+    // Label layout with collision avoidance: per side, sort by natural y and
+    // push labels apart vertically (leader lines follow the adjusted y).
+    const MIN_GAP = 14; // > font-size, keeps labels readable
+    const labelRadius = r + 16;
+    for (const side of [true, false]) {
+      const group = pre
+        .filter((p) => p.right === side)
+        .map((p) => ({ p, y: cy + labelRadius * Math.sin(p.mid) }))
+        .sort((a, b) => a.y - b.y);
+      // downward pass: enforce min gap
+      for (let i = 1; i < group.length; i++) {
+        if (group[i].y < group[i - 1].y + MIN_GAP) group[i].y = group[i - 1].y + MIN_GAP;
+      }
+      // upward pass: keep within chart bottom
+      const maxY = this.height() - 6;
+      for (let i = group.length - 1; i >= 0; i--) {
+        const limit = i === group.length - 1 ? maxY : group[i + 1].y - MIN_GAP;
+        if (group[i].y > limit) group[i].y = limit;
+      }
+      for (const g of group) {
+        const p = g.p;
+        const p1x = cx + (r + 2) * Math.cos(p.mid);
+        const p1y = cy + (r + 2) * Math.sin(p.mid);
+        const elbowX = cx + (side ? 1 : -1) * Math.sqrt(Math.max(labelRadius * labelRadius - Math.pow(g.y - cy, 2), (r + 10) * (r + 10)) );
+        const p3x = elbowX + (side ? 12 : -12);
+        p.labelLine = `${p1x},${p1y} ${elbowX},${g.y} ${p3x},${g.y}`;
+        p.labelX = p3x + (side ? 4 : -4);
+        p.labelY = g.y + 3.5;
+        p.anchor = side ? 'start' : 'end';
+      }
+    }
+    return pre;
   });
 
   protected readonly textColor = CHART_TEXT;

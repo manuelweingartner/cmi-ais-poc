@@ -46,73 +46,84 @@ const TYP_ICON: Record<string, string> = {
     </div>
 
     <div class="widgets">
-      <!-- Row 1: greeting + app shortcuts + counters -->
-      <div class="widget greet">
+      <!-- ============================ Kopfzeile: Begrüssung + Anwendungen-Schnellzugriff -->
+      <div class="widget greet span4">
         <div class="greet-title">Guten Morgen Manuel</div>
         <div class="greet-sub">Ich wünsche dir einen tollen Start in den Tag!</div>
         <div class="greet-info">Staatsarchiv des Kantons Dossikon | {{ data.ves().length }} Verzeichnungseinheiten | {{ data.dateien.length }} Dateien im Repository</div>
       </div>
 
-      @for (appId of appWidgets(); track appId) {
-        <button class="widget app-widget" type="button" (click)="ais.openApp(appId)">
-          <img [src]="defs[appId].icon" [alt]="defs[appId].name" />
-          <span>{{ defs[appId].name }}</span>
-        </button>
-      }
+      <div class="widget span8 apps-widget">
+        <div class="widget-head">
+          <span>Anwendungen</span>
+          <button class="mini-link" type="button" (click)="ais.showAnwendungen()">Alle Anwendungen</button>
+        </div>
+        <div class="apps-row">
+          @for (appId of appWidgets(); track appId) {
+            <button class="app-shortcut" type="button" (click)="ais.openApp(appId)">
+              <img [src]="defs[appId].icon" [alt]="defs[appId].name" />
+              <span>{{ defs[appId].name }}</span>
+            </button>
+          }
+          <button class="app-shortcut add" type="button" title="Widget hinzufügen" (click)="galerieOpen.set(true)">
+            <i class="material-icons">add</i>
+            <span>Hinzufügen</span>
+          </button>
+        </div>
+      </div>
 
-      <button class="widget counter" type="button" (click)="ais.openApp('datenuebernahme')">
+      <!-- ============================ Kennzahlen -->
+      <div class="section-title">Kennzahlen</div>
+      <button class="widget counter span3" type="button" (click)="ais.openApp('datenuebernahme')">
         <div class="counter-title">Ablieferungen in Verarbeitung</div>
         <div class="counter-value">{{ ablieferungenInVerarbeitung() }}</div>
+        <div class="counter-sub">Datenübernahme</div>
       </button>
-      <button class="widget counter" type="button" (click)="openFehlgeschlagene()">
+      <button class="widget counter span3" type="button" (click)="openFehlgeschlagene()">
         <div class="counter-title">Fehlgeschlagene Ausführungen</div>
         <div class="counter-value" [class.alert]="fehlgeschlagene() > 0">{{ fehlgeschlagene() }}</div>
+        <div class="counter-sub">Verarbeitung</div>
       </button>
-      <button class="widget counter" type="button" (click)="ais.openApp('akzessionen')">
+      <button class="widget counter span3" type="button" (click)="ais.openApp('akzessionen')">
         <div class="counter-title">Akzessionen in Bearbeitung</div>
         <div class="counter-value">{{ akzessionenOffen() }}</div>
+        <div class="counter-sub">Akzessionen</div>
       </button>
-      <button class="widget counter" type="button" (click)="ais.openApp('preservation')">
+      <button class="widget counter span3" type="button" (click)="ais.openApp('preservation')">
         <div class="counter-title">Fixity-Abweichungen (Bitrot)</div>
         <div class="counter-value">0</div>
+        <div class="counter-sub">Letzte Prüfung: 30.06.2026 (R-110)</div>
       </button>
 
-      <!-- Row 2: charts -->
-      <div class="widget chart wide">
+      <!-- ============================ Ingest und Repository -->
+      <div class="section-title">Ingest und Repository</div>
+
+      <div class="widget chart span8 row-a">
         <div class="widget-head">
           <span>Dateiformate im Repository</span>
           <button class="mini-link" type="button" (click)="ais.openApp('preservation')">Preservation Planing</button>
         </div>
-        <app-pie-chart [data]="formatPie()" [clickable]="true" (sliceClick)="openExtension($event)" />
+        <app-pie-chart [data]="formatPie()" [clickable]="true" [big]="true" (sliceClick)="openExtension($event)" />
         <div class="chart-hint">Klick auf ein Segment öffnet die Dateien in Preservation Planing.</div>
       </div>
 
-      <div class="widget chart">
-        <div class="widget-head">
-          <span>Benutzbarkeit der VEs</span>
-          <button class="mini-link" type="button" (click)="ais.openApp('tektonik')">Tektonik</button>
+      <div class="widget list span4 row-a">
+        <div class="widget-head"><span>Formatrisiken</span>
+          <button class="mini-link" type="button" (click)="ais.openApp('preservation')">Alle</button>
         </div>
-        <app-pie-chart [data]="benutzbarkeitPie()" [innerRatio]="0.62" [clickable]="true" (sliceClick)="ais.openApp('tektonik')" />
+        @for (r of topRisiken(); track r.extension) {
+          <div class="list-item" (click)="openExtension(r.extension)">
+            <div class="li-body">
+              <a class="li-title">{{ r.formatName }}</a>
+              <div class="li-fields"><span><span class="fl">Strategie:</span> {{ r.strategie }}</span></div>
+            </div>
+            <span class="pill" [class]="'pill r-' + r.risiko">{{ r.risiko }}</span>
+          </div>
+        }
+        <div class="list-foot">Erhaltungsstrategien: Migration, Emulation, Monitoring</div>
       </div>
 
-      <div class="widget chart">
-        <div class="widget-head">
-          <span>Ablieferungen nach Status</span>
-          <button class="mini-link" type="button" (click)="ais.openApp('datenuebernahme')">Datenübernahme</button>
-        </div>
-        <app-pie-chart [data]="ablieferungPie()" [innerRatio]="0.62" [clickable]="true" (sliceClick)="ais.openApp('datenuebernahme')" />
-      </div>
-
-      <div class="widget chart">
-        <div class="widget-head">
-          <span>Magazin-Belegung (Laufmeter)</span>
-          <button class="mini-link" type="button" (click)="ais.openApp('magazinverwaltung')">Magazinverwaltung</button>
-        </div>
-        <app-bar-chart [data]="magazinBars()" />
-      </div>
-
-      <!-- Row 3: lists -->
-      <div class="widget list wide">
+      <div class="widget list span8 row-b">
         <div class="widget-head">
           <span>Letzte Ausführungen ({{ letzteAusfuehrungen().length }} / {{ data.ausfuehrungen().length }})</span>
           <div class="list-actions">
@@ -136,22 +147,35 @@ const TYP_ICON: Record<string, string> = {
         }
       </div>
 
-      <div class="widget list">
-        <div class="widget-head"><span>Formatrisiken</span>
-          <button class="mini-link" type="button" (click)="ais.openApp('preservation')">Alle</button>
+      <div class="widget chart span4 row-b">
+        <div class="widget-head">
+          <span>Ablieferungen nach Status</span>
+          <button class="mini-link" type="button" (click)="ais.openApp('datenuebernahme')">Datenübernahme</button>
         </div>
-        @for (r of topRisiken(); track r.extension) {
-          <div class="list-item" (click)="openExtension(r.extension)">
-            <div class="li-body">
-              <a class="li-title">{{ r.formatName }}</a>
-              <div class="li-fields"><span><span class="fl">Strategie:</span> {{ r.strategie }}</span></div>
-            </div>
-            <span class="pill" [class]="'pill r-' + r.risiko">{{ r.risiko }}</span>
-          </div>
-        }
+        <app-pie-chart [data]="ablieferungPie()" [innerRatio]="0.62" [clickable]="true" (sliceClick)="ais.openApp('datenuebernahme')" />
       </div>
 
-      <div class="widget list">
+      <!-- ============================ Archiv -->
+      <div class="section-title">Archiv</div>
+
+      <div class="widget chart span4 row-c">
+        <div class="widget-head">
+          <span>Benutzbarkeit der VEs</span>
+          <button class="mini-link" type="button" (click)="ais.openApp('tektonik')">Tektonik</button>
+        </div>
+        <app-pie-chart [data]="benutzbarkeitPie()" [innerRatio]="0.62" [clickable]="true" (sliceClick)="ais.openApp('tektonik')" />
+      </div>
+
+      <div class="widget chart span4 row-c">
+        <div class="widget-head">
+          <span>Magazin-Belegung (Laufmeter)</span>
+          <button class="mini-link" type="button" (click)="ais.openApp('magazinverwaltung')">Magazinverwaltung</button>
+        </div>
+        <app-bar-chart [data]="magazinBars()" />
+        <div class="chart-hint">Auslastung gesamt: {{ magazinAuslastung() }}%</div>
+      </div>
+
+      <div class="widget list span4 row-c">
         <div class="widget-head"><span>Jüngste Akzessionen</span>
           <button class="mini-link" type="button" (click)="ais.openApp('akzessionen')">Alle</button>
         </div>
@@ -238,40 +262,54 @@ const TYP_ICON: Record<string, string> = {
       grid-template-columns: repeat(12, 1fr);
       gap: 14px;
       padding: 8px 24px 90px;
-      align-items: start;
     }
     .widget {
       background: #fff; border: 1px solid #e4e7ea; border-radius: 3px;
-      padding: 14px 16px; grid-column: span 2; min-height: 120px;
-      text-align: left;
+      padding: 14px 16px; text-align: left; min-width: 0;
     }
-    .greet { grid-column: span 4; }
+    .span3 { grid-column: span 3; }
+    .span4 { grid-column: span 4; }
+    .span8 { grid-column: span 8; }
+    .section-title {
+      grid-column: 1 / -1;
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.6px;
+      text-transform: uppercase; color: #9aa3ae;
+      margin: 10px 2px -4px;
+    }
+    /* Begruessung */
     .greet-title { color: #009fe3; font-weight: 500; margin-bottom: 6px; }
     .greet-sub { font-size: 0.85rem; color: #586475; }
     .greet-info { font-size: 0.72rem; color: #9aa3ae; margin-top: 14px; }
-    .app-widget {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 12px; cursor: pointer; font-size: 0.8rem; color: #586475; font-family: inherit;
+    /* Anwendungen-Schnellzugriff */
+    .apps-row { display: flex; flex-wrap: wrap; gap: 10px; }
+    .app-shortcut {
+      width: 104px; height: 96px; background: #fff; border: 1px solid #e4e7ea; border-radius: 3px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+      cursor: pointer; font-size: 0.72rem; color: #586475; font-family: inherit;
       transition: box-shadow 0.15s ease;
     }
-    .app-widget:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
-    .app-widget img { height: 38px; width: auto; max-width: 64px; object-fit: contain; }
-    .counter { cursor: pointer; font-family: inherit; transition: box-shadow 0.15s ease; }
+    .app-shortcut:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+    .app-shortcut img { height: 30px; width: auto; max-width: 56px; object-fit: contain; }
+    .app-shortcut span { max-width: 96px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .app-shortcut.add { border-style: dashed; color: #9aa3ae; }
+    .app-shortcut.add .material-icons { font-size: 28px; color: #009fe3; }
+    /* Zaehler */
+    .counter { cursor: pointer; font-family: inherit; transition: box-shadow 0.15s ease; display: flex; flex-direction: column; }
     .counter:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
-    .counter-title { font-size: 0.78rem; color: #586475; margin-bottom: 8px; }
-    .counter-value { font-size: 2.4rem; font-weight: 300; color: #586475; text-align: center; }
+    .counter-title { font-size: 0.78rem; color: #586475; margin-bottom: 6px; }
+    .counter-value { font-size: 2.6rem; font-weight: 300; color: #586475; text-align: center; flex: 1; }
     .counter-value.alert { color: #8c0909; }
-    .widget.chart { grid-column: span 4; min-height: 240px; }
-    .widget.chart.wide { grid-column: span 6; }
-    .widget.list { grid-column: span 4; }
-    .widget.list.wide { grid-column: span 8; }
+    .counter-sub { font-size: 0.68rem; color: #9aa3ae; text-align: center; }
+    /* Gleiche Hoehen pro Band */
+    .row-a, .row-b, .row-c { display: flex; flex-direction: column; }
+    .row-a app-pie-chart, .row-b app-pie-chart, .row-c app-pie-chart,
+    .row-c app-bar-chart { flex: 1; display: flex; flex-direction: column; justify-content: center; }
     @media (max-width: 1280px) {
-      .widget { grid-column: span 3; }
-      .greet { grid-column: span 6; }
-      .widget.chart, .widget.chart.wide, .widget.list, .widget.list.wide { grid-column: span 6; }
+      .span3 { grid-column: span 6; }
+      .span4, .span8 { grid-column: span 12; }
     }
     @media (max-width: 860px) {
-      .widget, .greet, .widget.chart, .widget.chart.wide, .widget.list, .widget.list.wide { grid-column: span 12; }
+      .span3, .span4, .span8 { grid-column: span 12; }
     }
     .widget-head {
       display: flex; align-items: center; justify-content: space-between;
@@ -387,6 +425,13 @@ export class Dashboard {
     this.data.magazinChildren(null).map((m) => ({ label: m.kuerzel, value: m.belegtLaufmeter ?? 0 })),
   );
 
+  protected magazinAuslastung(): number {
+    const roots = this.data.magazinChildren(null);
+    const kap = roots.reduce((s, m) => s + (m.kapazitaetLaufmeter ?? 0), 0);
+    const bel = roots.reduce((s, m) => s + (m.belegtLaufmeter ?? 0), 0);
+    return kap > 0 ? Math.round((bel / kap) * 100) : 0;
+  }
+
   // ------------------------------------------------------------ lists
   protected readonly letzteAusfuehrungen = computed(() =>
     [...this.data.ausfuehrungen()].sort((a, b) => b.zeitpunkt.localeCompare(a.zeitpunkt)).slice(0, 4),
@@ -394,7 +439,7 @@ export class Dashboard {
 
   protected topRisiken() {
     const order = { hoch: 0, mittel: 1, tief: 2 };
-    return [...this.data.formatRisiken].sort((a, b) => order[a.risiko] - order[b.risiko]).slice(0, 4);
+    return [...this.data.formatRisiken].sort((a, b) => order[a.risiko] - order[b.risiko]).slice(0, 6);
   }
 
   protected juengsteAkzessionen() {
