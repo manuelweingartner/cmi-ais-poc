@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Vereinfachtes Beispiel eines SIP-Headers in Anlehnung an eCH-0160 (arelda) -->
+<paket xmlns="http://bar.admin.ch/arelda/v4" schemaVersion="4.1">
+  <paketTyp>SIP</paketTyp>
+  <ablieferung>
+    <ablieferungsnummer>ABL-2026-003</ablieferungsnummer>
+    <ablieferndeStelle>Staatskanzlei des Kantons Dossikon</ablieferndeStelle>
+    <titel>RRB-Serie 2000-2010</titel>
+  </ablieferung>
+  <inhaltsverzeichnis>
+      <datei><name>rrb_2004_009.pdf</name><pruefalgorithmus>SHA-512</pruefalgorithmus></datei>
+      <datei><name>rrb_2008_010.pdf</name><pruefalgorithmus>SHA-512</pruefalgorithmus></datei>
+  </inhaltsverzeichnis>
+</paket>

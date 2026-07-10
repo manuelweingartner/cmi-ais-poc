@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Vereinfachtes Beispiel eines SIP-Headers in Anlehnung an eCH-0160 (arelda) -->
+<paket xmlns="http://bar.admin.ch/arelda/v4" schemaVersion="4.1">
+  <paketTyp>SIP</paketTyp>
+  <ablieferung>
+    <ablieferungsnummer>ABL-2026-005</ablieferungsnummer>
+    <ablieferndeStelle>Staatskanzlei des Kantons Dossikon</ablieferndeStelle>
+    <titel>Projektdossiers Umfahrung Lindberg</titel>
+  </ablieferung>
+  <inhaltsverzeichnis>
+      <datei><name>plan_01.pdf</name><pruefalgorithmus>SHA-512</pruefalgorithmus></datei>
+      <datei><name>plan_02.pdf</name><pruefalgorithmus>SHA-512</pruefalgorithmus></datei>
+      <datei><name>mail_01.eml</name><pruefalgorithmus>SHA-512</pruefalgorithmus></datei>
+  </inhaltsverzeichnis>
+</paket>

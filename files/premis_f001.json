@@ -1,0 +1,38 @@
+{
+  "premis": "3.0",
+  "object": {
+    "pid": "STA-AIP-2026-0001",
+    "originalName": "rrb_1954_001.pdf",
+    "sizeBytes": 3376,
+    "fixity": {
+      "algorithm": "SHA-512",
+      "digest": "697c4a66cbd84cbb5500b567164c6414..."
+    }
+  },
+  "format": {
+    "name": "Acrobat PDF 1.7 - Portable Document Format",
+    "version": "1.7",
+    "registry": "PRONOM",
+    "puid": "fmt/276"
+  },
+  "events": [
+    {
+      "typ": "Passivierung",
+      "datum": "1954-12-31",
+      "resultat": "erfolgreich",
+      "detail": "Aus GEVER-Dossier ausgekoppelt, SIP gebildet (eCH-0160)"
+    },
+    {
+      "typ": "Ingest",
+      "datum": "2025-11-12",
+      "resultat": "erfolgreich",
+      "detail": "SIP validiert (Struktur, arelda-Schema, SHA-512), AIP gebildet, PID vergeben"
+    },
+    {
+      "typ": "Fixity-Pruefung",
+      "datum": "2026-06-30",
+      "resultat": "erfolgreich",
+      "detail": "SHA-512 neu berechnet und mit gespeichertem Digest verglichen"
+    }
+  ]
+}

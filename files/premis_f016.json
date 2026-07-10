@@ -1,0 +1,32 @@
+{
+  "premis": "3.0",
+  "object": {
+    "pid": "STA-AIP-2026-0016",
+    "originalName": "plan_01.pdf",
+    "sizeBytes": 1918,
+    "fixity": {
+      "algorithm": "SHA-512",
+      "digest": "f78ff0ce06fba1557ba9efc3569b18a9..."
+    }
+  },
+  "format": {
+    "name": "Acrobat PDF 1.7 - Portable Document Format",
+    "version": "1.7",
+    "registry": "PRONOM",
+    "puid": "fmt/276"
+  },
+  "events": [
+    {
+      "typ": "Passivierung",
+      "datum": "2019-03-30",
+      "resultat": "erfolgreich",
+      "detail": "Aus GEVER-Dossier ausgekoppelt, SIP gebildet (eCH-0160)"
+    },
+    {
+      "typ": "Ingest",
+      "datum": "2025-12-02",
+      "resultat": "erfolgreich",
+      "detail": "SIP validiert (Struktur, arelda-Schema, SHA-512), AIP gebildet, PID vergeben"
+    }
+  ]
+}
