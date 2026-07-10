@@ -70,6 +70,16 @@ src/app/
 - `python scripts/generate_sample_files.py` erzeugt 60 echte Dateien (PDF, DOCX, EML, CSV, XML, JSON, PNG, TIF, TXT, XLSX, SIP-ZIP) in `public/files/` UND `src/app/data/file-manifest.ts` mit echten Grössen/SHA-512. Nach Änderungen an den Dateien IMMER neu generieren (sonst stimmen Hashes nicht mehr - fachliche Korrektheit!).
 - Inhalte fiktiv (Kanton Dossikon); PRONOM-PUIDs nur wo sicher, sonst `undefined`.
 
+## Offene fachliche Vertiefung (Backlog, evtl. später)
+
+Stand 2026-07-10. Der Prototyp deckt D1-D6, D9, D10 ab (Features + auf den Domänen-Seiten zitierte User Stories). Bewusst noch offen:
+
+1. **UC-Diagramme lesen**: Die 97 Use Cases von Mischa (Seiten "Use Cases: ...") sind draw.io-Diagramme und per API NICHT als Text lesbar. Für volle Tiefe: Diagramme als Bild exportieren bzw. Screenshots in INPUTS/ legen und auswerten. Auch die Gherkin-Details (`Features/<F-ID>.md`) wurden nicht gelesen.
+2. **Nicht gelesene Wiki-Seiten**: D7 (Access / Dissemination & Publikation), D8 (Administration & Governance), D11 (Optionen), D12 (Querschnitt), Feature-Roadmap-Meilensteine (M1-M5 / N1-N5), "Modularer MVP-Ansatz" (5988155468), Framework-Abhängigkeiten (5986582558), Glossar/Lizenzen.
+3. **Fehlende Apps/Bereiche**: Register-App (DLZA-Wiki: "Archiv = AIS - dort fehlt noch die Kachel Register"), Access/Dissemination (Lesesaal, EAD-Export als Fläche, OAI-PMH), Suchcenter, Favoriten, Systemeinstellungen/Benutzereinstellungen, Cockpit/Monitoring als eigene Sicht, KI+-Use-Cases.
+4. **Traceability-Matrix**: pro App-Screen die F-IDs (D1-F-x ...) mappen; nutzbar für Sales (Feature-Abdeckung) und Refinement (R27 M1-M5).
+5. **Grenzen des Prototyps** (bewusst, nicht nachbauen ohne Auftrag): kein IMDA-Datenmodell, keine Berechtigungen, Workflows I-25/P-325/A-725 sind plausible Fiktion nach Mockup, metadata.xml nur "in Anlehnung an eCH-0160", keine echte Schema-Validierung, zeigt das Was, nicht die Zielarchitektur (Lift & Shift, SaveActions, ITaskCommand, CATS-333-Layouts).
+
 ## Build & Deploy
 
 - Build/Analyse: `npx ng build`.

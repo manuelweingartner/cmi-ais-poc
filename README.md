@@ -24,6 +24,14 @@ Dazu ein **Widget-Dashboard** (Begrüssung, App-Widgets, klickbare Zähler, Diag
 
 Struktur und Begriffe folgen den CMI-internen Konzepten (CATS-11-Wiki, DLZA-Wiki, Featurematrix DLZA, SBO-Folien): OAIS (SIP/AIP/DIP), eCH-0160/arelda, PREMIS/FIDO/PRONOM, PID, ISAD(G), ISAAR(CPF), EAD.
 
+## Ausbau-Ideen (Backlog)
+
+- Register-App (fehlt gemäss DLZA-Wiki noch als Kachel), Access/Dissemination (Lesesaal, EAD/OAI-PMH), Suchcenter, Favoriten, Administration, Cockpit/Monitoring
+- Use-Case-Diagramme (97 UCs) vertieft auswerten und Gherkin-Details je Feature einarbeiten
+- Traceability-Matrix App-Screens zu F-IDs (Feature-Abdeckung für Sales und Refinement)
+
+Details siehe CLAUDE.md, Abschnitt "Offene fachliche Vertiefung".
+
 ## Starten
 
 ```bash

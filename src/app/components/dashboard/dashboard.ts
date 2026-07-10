@@ -60,15 +60,11 @@ const TYP_ICON: Record<string, string> = {
         </div>
         <div class="apps-row">
           @for (appId of appWidgets(); track appId) {
-            <button class="app-shortcut" type="button" (click)="ais.openApp(appId)">
+            <button class="app-shortcut" type="button" [title]="defs[appId].name" (click)="ais.openApp(appId)">
               <img [src]="defs[appId].icon" [alt]="defs[appId].name" />
               <span>{{ defs[appId].name }}</span>
             </button>
           }
-          <button class="app-shortcut add" type="button" title="Widget hinzufügen" (click)="galerieOpen.set(true)">
-            <i class="material-icons">add</i>
-            <span>Hinzufügen</span>
-          </button>
         </div>
       </div>
 
@@ -371,8 +367,8 @@ export class Dashboard {
   protected readonly typIcon = TYP_ICON;
 
   protected readonly galerieOpen = signal(false);
-  /** App shortcuts shown as widgets; more can be added via the gallery (FAB). */
-  protected readonly appWidgets = signal<AppId[]>(['tektonik', 'verarbeitung']);
+  /** All apps as dashboard shortcuts (user decision: no add button, show all). */
+  protected readonly appWidgets = signal<AppId[]>(Object.keys(this.defs) as AppId[]);
 
   protected readonly verfuegbareApps = computed(() =>
     (Object.keys(this.defs) as AppId[]).filter((a) => !this.appWidgets().includes(a)),
