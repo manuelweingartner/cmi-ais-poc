@@ -26,6 +26,7 @@ export interface BarItem {
     </svg>
   `,
   styles: [`
+    :host { display: block; max-width: 620px; margin: 0 auto; }
     .tick { font-size: 9px; fill: #9aa3ae; }
     .cat { font-size: 10px; fill: #586475; }
   `],

@@ -27,11 +27,6 @@ import { AisService, APP_DEFINITIONS } from '../../services/ais.service';
       </div>
 
       <div class="actions">
-        <!-- Decorative for now -->
-        <button class="icon-btn" type="button" title="3D-Ansicht" disabled>
-          <i class="material-icons">view_in_ar</i>
-        </button>
-
         <!-- Only interactive nav: opens the Anwendungen grid -->
         <button
           class="icon-btn"
