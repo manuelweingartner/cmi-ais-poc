@@ -29,10 +29,6 @@ import { ProvenienzenApp } from './components/provenienzen/provenienzen';
   ],
   template: `
     <app-top-bar></app-top-bar>
-    <div class="poc-disclaimer">
-      <i class="material-icons">science</i>
-      <span><strong>Klick-Prototyp</strong> zur internen Diskussion (Arbeitsgruppe/ST5). Kein Produktstand, keine Aufwands- oder Funktionszusage. Alle Daten fiktiv (Staatsarchiv des Kantons Dossikon).</span>
-    </div>
     <main class="app-body">
       @switch (ais.currentView()) {
         @case ('dashboard') {
@@ -54,6 +50,10 @@ import { ProvenienzenApp } from './components/provenienzen/provenienzen';
         }
       }
     </main>
+    <footer class="poc-footer">
+      <i class="material-icons">science</i>
+      <span><strong>Klick-Prototyp</strong> zur internen Diskussion (Arbeitsgruppe/ST5). Kein Produktstand, keine Aufwands- oder Funktionszusage. Alle Daten fiktiv (Staatsarchiv des Kantons Dossikon).</span>
+    </footer>
     @if (toast.message(); as msg) {
       <div class="toast">{{ msg }}</div>
     }
@@ -65,27 +65,33 @@ import { ProvenienzenApp } from './components/provenienzen/provenienzen';
     }
     .app-body {
       display: block;
+      padding-bottom: 34px; /* keep content clear of the fixed footer */
     }
-    .poc-disclaimer {
+    .poc-footer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 40;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       background: #fdf6e3;
-      border-bottom: 1px solid #eadfb8;
+      border-top: 1px solid #eadfb8;
       color: #7a6a2f;
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       padding: 5px 16px;
       text-align: center;
     }
-    .poc-disclaimer .material-icons {
-      font-size: 16px;
+    .poc-footer .material-icons {
+      font-size: 15px;
       color: #b08a2e;
       flex: 0 0 auto;
     }
     .toast {
       position: fixed;
-      bottom: 24px;
+      bottom: 48px;
       left: 50%;
       transform: translateX(-50%);
       background: #33485e;

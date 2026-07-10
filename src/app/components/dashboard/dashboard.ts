@@ -335,7 +335,7 @@ const TYP_ICON: Record<string, string> = {
     .pill.r-mittel { background: #fdf1d8; color: #9a7318; }
     .pill.r-hoch { background: #f7dede; color: #8c0909; }
     .fab {
-      position: fixed; right: 28px; bottom: 28px; width: 56px; height: 56px;
+      position: fixed; right: 28px; bottom: 48px; width: 56px; height: 56px;
       border-radius: 50%; background: #009fe3; color: #fff; border: none; cursor: pointer;
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center;
       z-index: 30;
