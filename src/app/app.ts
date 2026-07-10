@@ -11,6 +11,7 @@ import { TektonikApp } from './components/tektonik/tektonik';
 import { MagazinApp } from './components/magazin/magazin';
 import { AkzessionenApp } from './components/akzessionen/akzessionen';
 import { ProvenienzenApp } from './components/provenienzen/provenienzen';
+import { FeedbackWidget } from './components/feedback-widget/feedback-widget';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,7 @@ import { ProvenienzenApp } from './components/provenienzen/provenienzen';
     MagazinApp,
     AkzessionenApp,
     ProvenienzenApp,
+    FeedbackWidget,
   ],
   template: `
     <app-top-bar></app-top-bar>
@@ -50,6 +52,7 @@ import { ProvenienzenApp } from './components/provenienzen/provenienzen';
         }
       }
     </main>
+    <app-feedback-widget></app-feedback-widget>
     <footer class="poc-footer">
       <i class="material-icons">science</i>
       <span><strong>Klick-Prototyp</strong> zur internen Diskussion. Kein Produktstand, keine Aufwands- oder Funktionszusage. Alle Daten fiktiv (Staatsarchiv des Kantons Dossikon).</span>
