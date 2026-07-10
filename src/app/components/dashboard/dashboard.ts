@@ -188,30 +188,10 @@ const TYP_ICON: Record<string, string> = {
       </div>
     </div>
 
-    <!-- Add widget FAB + Galerie -->
-    <button class="fab" type="button" title="Widget hinzufügen" (click)="galerieOpen.set(true)">
+    <!-- FAB: Neues Objekt anlegen (im Prototyp noch nicht klickbar) -->
+    <button class="fab" type="button" title="Neues Objekt anlegen" disabled>
       <i class="material-icons">add</i>
     </button>
-
-    @if (galerieOpen()) {
-      <div class="dialog-backdrop" (click)="galerieOpen.set(false)">
-        <div class="dialog" (click)="$event.stopPropagation()">
-          <h3>Widget hinzufügen</h3>
-          <p class="hint">Anwendungen können dem Dashboard als Widget hinzugefügt werden:</p>
-          <div class="galerie">
-            @for (appId of verfuegbareApps(); track appId) {
-              <button class="galerie-tile" type="button" (click)="addAppWidget(appId)">
-                <img [src]="defs[appId].icon" [alt]="defs[appId].name" />
-                <span>{{ defs[appId].name }}</span>
-              </button>
-            } @empty {
-              <p class="hint">Alle Anwendungen sind bereits als Widget auf dem Dashboard.</p>
-            }
-          </div>
-          <button class="btn" type="button" (click)="galerieOpen.set(false)">Schliessen</button>
-        </div>
-      </div>
-    }
   `,
   styles: [`
     :host {
@@ -340,23 +320,9 @@ const TYP_ICON: Record<string, string> = {
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center;
       z-index: 30;
     }
-    .fab:hover { background: #008fcc; }
+    .fab:hover:not([disabled]) { background: #008fcc; }
+    .fab[disabled] { cursor: default; }
     .fab .material-icons { font-size: 28px; }
-    /* Dialog */
-    .dialog-backdrop { position: fixed; inset: 0; background: rgba(30, 40, 54, 0.4); display: flex; align-items: center; justify-content: center; z-index: 50; }
-    .dialog { background: #fff; border-radius: 3px; padding: 20px 24px; min-width: 420px; max-width: 640px; display: flex; flex-direction: column; gap: 8px; }
-    .dialog h3 { margin: 0; font-size: 1rem; color: #33485e; }
-    .hint { font-size: 0.8rem; color: #7d8794; margin: 0; }
-    .galerie { display: flex; flex-wrap: wrap; gap: 12px; margin: 10px 0; }
-    .galerie-tile {
-      width: 110px; height: 100px; background: #fff; border: 1px solid #e4e7ea; border-radius: 3px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
-      cursor: pointer; font-size: 0.72rem; color: #586475; font-family: inherit;
-    }
-    .galerie-tile:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
-    .galerie-tile img { height: 30px; width: auto; max-width: 54px; object-fit: contain; }
-    .btn { align-self: flex-end; border: 1px solid #cfd6dc; background: #fff; color: #586475; padding: 6px 14px; border-radius: 3px; cursor: pointer; font-size: 0.82rem; }
-    .btn:hover { background: #f4f6f8; }
   `],
 })
 export class Dashboard {
@@ -366,19 +332,8 @@ export class Dashboard {
   protected readonly defs = APP_DEFINITIONS;
   protected readonly typIcon = TYP_ICON;
 
-  protected readonly galerieOpen = signal(false);
   /** All apps as dashboard shortcuts (user decision: no add button, show all). */
   protected readonly appWidgets = signal<AppId[]>(Object.keys(this.defs) as AppId[]);
-
-  protected readonly verfuegbareApps = computed(() =>
-    (Object.keys(this.defs) as AppId[]).filter((a) => !this.appWidgets().includes(a)),
-  );
-
-  protected addAppWidget(appId: AppId): void {
-    this.appWidgets.update((list) => [...list, appId]);
-    this.galerieOpen.set(false);
-    this.toast.show(`Widget "${this.defs[appId].name}" zum Dashboard hinzugefügt.`);
-  }
 
   // ------------------------------------------------------------ counters
   protected ablieferungenInVerarbeitung(): number {
