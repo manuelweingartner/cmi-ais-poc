@@ -33,8 +33,12 @@ export interface BarItem {
 })
 export class BarChart {
   readonly data = input.required<BarItem[]>();
+  /** Taller rendering, e.g. next to donut charts on the dashboard. */
+  readonly tall = input(false);
   readonly W = 460;
-  readonly H = 220;
+  get H(): number {
+    return this.tall() ? 330 : 220;
+  }
   readonly pad = 38;
 
   private niceMax(): number {

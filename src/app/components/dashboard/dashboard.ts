@@ -167,7 +167,7 @@ const TYP_ICON: Record<string, string> = {
           <span>Magazin-Belegung (Laufmeter)</span>
           <button class="mini-link" type="button" (click)="ais.openApp('magazinverwaltung')">Magazinverwaltung</button>
         </div>
-        <app-bar-chart [data]="magazinBars()" />
+        <app-bar-chart [data]="magazinBars()" [tall]="true" />
         <div class="chart-hint">Auslastung gesamt: {{ magazinAuslastung() }}%</div>
       </div>
 
