@@ -1,0 +1,32 @@
+{
+  "premis": "3.0",
+  "object": {
+    "pid": "STA-AIP-2026-0011",
+    "originalName": "urteil_1995_01.pdf",
+    "sizeBytes": 2544,
+    "fixity": {
+      "algorithm": "SHA-512",
+      "digest": "1b64f796c848460b1bd407794b975411..."
+    }
+  },
+  "format": {
+    "name": "Acrobat PDF 1.7 - Portable Document Format",
+    "version": "1.7",
+    "registry": "PRONOM",
+    "puid": "fmt/276"
+  },
+  "events": [
+    {
+      "typ": "Passivierung",
+      "datum": "1995-12-31",
+      "resultat": "erfolgreich",
+      "detail": "Aus GEVER-Dossier ausgekoppelt, SIP gebildet (eCH-0160)"
+    },
+    {
+      "typ": "Ingest",
+      "datum": "2025-11-18",
+      "resultat": "erfolgreich",
+      "detail": "SIP validiert (Struktur, arelda-Schema, SHA-512), AIP gebildet, PID vergeben"
+    }
+  ]
+}

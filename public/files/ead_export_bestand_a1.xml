@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Vereinfachter EAD-Export (Auszug) des Bestandes A 1 -->
+<ead xmlns="urn:isbn:1-931666-22-9">
+  <archdesc level="fonds">
+    <did>
+      <unitid>A 1</unitid>
+      <unittitle>Regierungsratsbeschluesse (RRB)</unittitle>
+      <unitdate>1850-2010</unitdate>
+    </did>
+  </archdesc>
+</ead>

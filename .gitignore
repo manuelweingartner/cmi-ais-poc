@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.angular/
+*.output
+
+# Bilder-Mockups (Referenz, nicht deployen)
+# (bleiben lokal, aber im Repo als Referenz ok - hier nicht ignoriert)
+
+# Claude Code local state
+.claude/autopull.log
+.claude/worktrees/
+.claude/settings.local.json
+.playwright-mcp/
+
+# Interne CMI-Referenzunterlagen (nie in das oeffentliche Repo)
+INPUTS/
