@@ -1,6 +1,6 @@
 # CMI AIS - Prototyp
 
-> **Klick-Prototyp zur internen Diskussion (Arbeitsgruppe/ST5).** Kein Produktstand, keine Aufwands- oder Funktionszusage. Der Prototyp zeigt, WIE ein CMI AIS im Web aussehen und sich anfühlen könnte; der reale Umsetzungsaufwand richtet sich nach der Epic-Planung (CATS-11). Alle Daten sind fiktiv.
+> **Klick-Prototyp zur internen Diskussion.** Kein Produktstand, keine Aufwands- oder Funktionszusage. Der Prototyp zeigt, WIE ein CMI AIS im Web aussehen und sich anfühlen könnte; der reale Umsetzungsaufwand richtet sich nach der Epic-Planung (CATS-11). Alle Daten sind fiktiv.
 
 Klickbarer Angular-Prototyp für "CMI AIS": ein Archivinformationssystem nach dem OAIS-Modell im CMI WebClient. Zweiter POC analog [`workflow-app`](https://github.com/manuelweingartner/workflow-app).
 

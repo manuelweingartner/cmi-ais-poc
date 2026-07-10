@@ -52,7 +52,7 @@ import { ProvenienzenApp } from './components/provenienzen/provenienzen';
     </main>
     <footer class="poc-footer">
       <i class="material-icons">science</i>
-      <span><strong>Klick-Prototyp</strong> zur internen Diskussion (Arbeitsgruppe/ST5). Kein Produktstand, keine Aufwands- oder Funktionszusage. Alle Daten fiktiv (Staatsarchiv des Kantons Dossikon).</span>
+      <span><strong>Klick-Prototyp</strong> zur internen Diskussion. Kein Produktstand, keine Aufwands- oder Funktionszusage. Alle Daten fiktiv (Staatsarchiv des Kantons Dossikon).</span>
     </footer>
     @if (toast.message(); as msg) {
       <div class="toast">{{ msg }}</div>
